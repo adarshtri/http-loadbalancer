@@ -1,0 +1,21 @@
+supported-endpoints: &server-endpoints
+  - endpoint: "/"
+    supported-methods:
+      - "GET"
+      - "POST"
+  - endpoint: "/user"
+    supported-methods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "PATCH"
+      - "DELETE"
+
+servers:
+  - host: localhost
+    port: 8000
+    supported-endpoints: *server-endpoints
+
+  - host: localhost
+    port: 8001
+    supported-endpoints: *server-endpoints
