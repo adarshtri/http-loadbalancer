@@ -1,12 +1,10 @@
 package main
 
 import (
-	"github.com/adarshtri/http-loadbalancer/handlers"
+	"github.com/adarshtri/http-loadbalancer/app"
 	"github.com/adarshtri/http-loadbalancer/util"
-	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"log"
-	"net/http"
 )
 
 func main(){
@@ -18,13 +16,10 @@ func main(){
 	}
 
 	envConfig := util.GetEnvConfig()
-	envConfig.PrintEnvConfig()
 
-	config := util.GetConfig("/Users/atrivedi/Projects/http-loadbalancer/config.yml")
-	config.PrintConfig()
+	//config := util.GetConfig(envConfig.GetLoadBalacerConfigFile())
 
-	router := mux.NewRouter()
-	router.HandleFunc("/", handlers.Root).Methods("GET")
-
-	log.Fatal(http.ListenAndServe(":8080", router))
+	application := app.App{}
+	application.InitializeApp(envConfig.GetMySQLUser(), envConfig.GetMySQLPassword(), envConfig.GetMySQLDB())
+	application.Run(":8080")
 }
